@@ -45,11 +45,18 @@ Observer.tokenize = function(keypath, interfaces, root) {
 Observer.prototype.parse = function() {
   interfaces = Object.keys(sightglass.adapters)
 
+  if(!interfaces.length) {
+    throw new Error("Must define at least one adapter on sg.adapters.")
+  }
+
   if(!!~interfaces.indexOf(this.keypath[0])) {
     root = this.keypath[0]
     path = this.keypath.substr(1)
   } else {
-    root = sightglass.root
+    if(typeof (root = sightglass.root) === 'undefined') {
+      throw new Error("Must define a default root adapter on sg.root.")
+    }
+
     path = this.keypath
   }
 

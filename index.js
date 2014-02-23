@@ -1,4 +1,4 @@
-(function(exports) {
+(function() {
   // Public sightglass interface.
   function sightglass(obj, keypath, callback) {
     return new Observer(obj, keypath, callback)

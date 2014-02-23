@@ -3,6 +3,8 @@
   "repo": "mikeric/sightglass",
   "description": "Observable keypath engine.",
   "version": "0.1.0",
+  "author": "Michael Richards",
+  "twitter": "@mikeric",
   "keywords": [
     "observe",
     "observable",

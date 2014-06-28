@@ -119,11 +119,19 @@
     }
   }
 
-  // Reads the current end value of the observed keypath. Return undefined if the
-  // full keypath is unreachable.
+  // Reads the current end value of the observed keypath. Returns undefined if
+  // the full keypath is unreachable.
   Observer.prototype.value = function() {
     if(typeof this.target !== 'undefined') {
       return this.get(this.key, this.target)
+    }
+  }
+
+  // Sets the current end value of the observed keypath. Calling setValue when
+  // the full keypath is unreachable is a no-op.
+  Observer.prototype.setValue = function(value) {
+    if(typeof this.target !== 'undefined') {
+      this.adapter(this.key).set(this.target, this.key.path, value)
     }
   }
 

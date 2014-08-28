@@ -12,39 +12,49 @@ $ component install mikeric/sightglass
 
 ## API
 
-#### sg(obj, keypath, callback)
+#### sightglass(obj, keypath, callback)
 
 Observes the full keypath on the provided object. The callback is called whenever the end value of the keypath changes (this could happen from any intermediary objects in the keypath changing, in addition to the property at the end of the keypath changing).
 
 ```
-sg(obj, 'user.address:city', function() {})
+sightglass(obj, 'user.address:city', function() {})
 ```
 
 This returns an `Observer` instance that you can hold on to for later (see the observer API below).
 
-#### sg.adapters
+#### sightglass.adapters
 
-Before being able to observe an object with sightglass, you need to define at least one adapter to compose your keypaths with. Adapters are just objects that respond to `observe`, `unobserve` and `get`. Keys on the `sg.adapters` object are the interfaces / separators to use when composing your keypaths.
+Before being able to observe an object with sightglass, you need to define at least one adapter to compose your keypaths with. Adapters are just objects that respond to `observe`, `unobserve` and `get`. Keys on the `sightglass.adapters` object are the interfaces / separators to use when composing your keypaths.
 
 ```
-sg.adapters['.'] = {
+sightglass.adapters['.'] = {
   observe: function(obj, key, callback) {},
   unobserve: function(obj, key, callback) {},
   get: function(obj, key) {}
 }
 ```
 
-#### sg.root
+#### sightglass.root
 
 Sightglass also needs to know about a default root adapter. This is only required for keypaths that aren't prepended with an adapter key. For example, if your default root adapter is set to `.`, then the keypath `hello:world` will get parsed as `.hello:world`.
 
 ```
-sg.root = '.'
+sightglass.root = '.'
 ```
+
+## Observer API
 
 #### observer.value()
 
 Reads the current end value of the observed keypath. Returns `undefined` if the full keypath is unreachable.
+
+#### observer.setValue()
+
+Sets the value on the tail property of the observed object (the last segment in the keypath). Calling `setValue` when the full keypath is unreachable is a no-op.
+
+```
+observer.setValue('Vancouver')
+```
 
 #### observer.update()
 

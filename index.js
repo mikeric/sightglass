@@ -1,14 +1,15 @@
 (function() {
   // Public sightglass interface.
-  function sightglass(obj, keypath, callback) {
-    return new Observer(obj, keypath, callback)
+  function sightglass(obj, keypath, callback, options) {
+    return new Observer(obj, keypath, callback, options)
   }
 
   // Batteries not included.
   sightglass.adapters = {}
 
   // Constructs a new keypath observer and kicks things off.
-  function Observer(obj, keypath, callback) {
+  function Observer(obj, keypath, callback, options) {
+    this.options = options || {}
     this.obj = obj
     this.keypath = keypath
     this.callback = callback

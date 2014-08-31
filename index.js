@@ -46,7 +46,7 @@
   // Parses the keypath using the interfaces defined on the view. Sets variables
   // for the tokenized keypath as well as the end key.
   Observer.prototype.parse = function() {
-    interfaces = Object.keys(sightglass.adapters)
+    interfaces = this.interfaces()
 
     if(!interfaces.length) {
       error('Must define at least one adapter interface.')
@@ -146,6 +146,19 @@
   Observer.prototype.set = function(active, key, obj, callback) {
     action = active ? 'observe' : 'unobserve'
     this.adapter(key)[action](obj, key.path, callback)
+  }
+
+  // Returns an array of all unique adapter interfaces available.
+  Observer.prototype.interfaces = function() {
+    interfaces = Object.keys(this.options.adapters)
+
+    Object.keys(sightglass.adapters).forEach(function(interface) {
+      if(!~interfaces.indexOf(interface)) {
+        interfaces.push(interface)
+      }
+    })
+
+    return interfaces
   }
 
   // Convenience function to grab the adapter for a specific key.

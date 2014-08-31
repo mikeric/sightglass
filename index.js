@@ -56,7 +56,7 @@
       root = this.keypath[0]
       path = this.keypath.substr(1)
     } else {
-      if(typeof (root = sightglass.root) === 'undefined') {
+      if(typeof (root = this.options.root || sightglass.root) === 'undefined') {
         error('Must define a default root adapter.')
       }
 

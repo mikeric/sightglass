@@ -12,25 +12,16 @@ $ component install mikeric/sightglass
 
 ## API
 
-#### sightglass(obj, keypath, callback)
-
-Observes the full keypath on the provided object. The callback is called whenever the end value of the keypath changes (this could happen from any intermediary objects in the keypath changing, in addition to the property at the end of the keypath changing).
-
-```
-sightglass(obj, 'user.address:city', function() {})
-```
-
-This returns an `Observer` instance that you can hold on to for later (see the observer API below).
-
 #### sightglass.adapters
 
-Before being able to observe an object with sightglass, you need to define at least one adapter to compose your keypaths with. Adapters are just objects that respond to `observe`, `unobserve` and `get`. Keys on the `sightglass.adapters` object are the interfaces / separators to use when composing your keypaths.
+Before being able to observe an object with sightglass, you need to define at least one adapter to compose your keypaths with. Adapters are just objects that respond to `observe`, `unobserve` and `get`. Keys on the `sightglass.adapters` object are the separators you will use when composing your keypaths.
 
 ```
 sightglass.adapters['.'] = {
   observe: function(obj, key, callback) {},
   unobserve: function(obj, key, callback) {},
   get: function(obj, key) {}
+  set: function(obj, key, value) {}
 }
 ```
 
@@ -41,6 +32,30 @@ Sightglass also needs to know about a default root adapter. This is only require
 ```
 sightglass.root = '.'
 ```
+
+#### sightglass(obj, keypath, callback, [options])
+
+Observes the full keypath on the provided object. The callback is called whenever the end value of the keypath changes (this could happen from any intermediary objects in the keypath changing, in addition to the property at the end of the keypath changing).
+
+```
+sightglass(obj, 'user.address:city', function() {})
+```
+
+You can optionally pass in a fourth argument to extend the default options. Adapters defined here will only be available locally to the observer. All globally defined adapters will also be available to the observer, unless overridden by using an existing separator key.
+
+```
+sightglass(obj, keypath, callback, {
+  root: ':',
+  adapters: {':': {
+    observe: function(obj, key, callback) {},
+    unobserve: function(obj, key, callback) {},
+    get: function(obj, key) {}
+    set: function(obj, key, value) {}
+  }}
+})
+```
+
+Returns an `Observer` instance that you can hold on to for later (see *Observer API* below).
 
 ## Observer API
 

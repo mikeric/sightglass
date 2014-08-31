@@ -163,7 +163,8 @@
 
   // Convenience function to grab the adapter for a specific key.
   Observer.prototype.adapter = function(key) {
-    return sightglass.adapters[key.interface]
+    return this.options.adapters[key.interface] ||
+      sightglass.adapters[key.interface]
   }
 
   // Unobserves the entire keypath.

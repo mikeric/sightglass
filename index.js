@@ -1,14 +1,16 @@
 (function() {
   // Public sightglass interface.
-  function sightglass(obj, keypath, callback) {
-    return new Observer(obj, keypath, callback)
+  function sightglass(obj, keypath, callback, options) {
+    return new Observer(obj, keypath, callback, options)
   }
 
   // Batteries not included.
   sightglass.adapters = {}
 
   // Constructs a new keypath observer and kicks things off.
-  function Observer(obj, keypath, callback) {
+  function Observer(obj, keypath, callback, options) {
+    this.options = options || {}
+    this.options.adapters = this.options.adapters || {}
     this.obj = obj
     this.keypath = keypath
     this.callback = callback
@@ -44,7 +46,7 @@
   // Parses the keypath using the interfaces defined on the view. Sets variables
   // for the tokenized keypath as well as the end key.
   Observer.prototype.parse = function() {
-    interfaces = Object.keys(sightglass.adapters)
+    interfaces = this.interfaces()
 
     if(!interfaces.length) {
       error('Must define at least one adapter interface.')
@@ -54,7 +56,7 @@
       root = this.keypath[0]
       path = this.keypath.substr(1)
     } else {
-      if(typeof (root = sightglass.root) === 'undefined') {
+      if(typeof (root = this.options.root || sightglass.root) === 'undefined') {
         error('Must define a default root adapter.')
       }
 
@@ -146,9 +148,23 @@
     this.adapter(key)[action](obj, key.path, callback)
   }
 
+  // Returns an array of all unique adapter interfaces available.
+  Observer.prototype.interfaces = function() {
+    interfaces = Object.keys(this.options.adapters)
+
+    Object.keys(sightglass.adapters).forEach(function(interface) {
+      if(!~interfaces.indexOf(interface)) {
+        interfaces.push(interface)
+      }
+    })
+
+    return interfaces
+  }
+
   // Convenience function to grab the adapter for a specific key.
   Observer.prototype.adapter = function(key) {
-    return sightglass.adapters[key.interface]
+    return this.options.adapters[key.interface] ||
+      sightglass.adapters[key.interface]
   }
 
   // Unobserves the entire keypath.

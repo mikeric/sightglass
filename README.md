@@ -1,13 +1,13 @@
 # sightglass
 
-Observable keypath engine. Facilitaties building your own composable keypaths by way of defining adapters. This component was originally extracted from the [Rivets.js](http://rivetsjs.com) data binding + templating library.
+Observable keypath engine. Facilitaties building your own composable keypaths by way of defining adapters. This module was originally extracted from the [Rivets.js](http://rivetsjs.com) data binding + templating library.
 
 ## Installation
 
-Install with [component(1)](http://component.io):
+Install with [npm](https://www.npmjs.org/), [component(1)](http://component.io) or [bower](http://bower.io/) (recommended).
 
 ```
-$ component install mikeric/sightglass
+$ bower install sightglass
 ```
 
 ## API
@@ -20,7 +20,7 @@ Before being able to observe an object with sightglass, you need to define at le
 sightglass.adapters['.'] = {
   observe: function(obj, key, callback) {},
   unobserve: function(obj, key, callback) {},
-  get: function(obj, key) {}
+  get: function(obj, key) {},
   set: function(obj, key, value) {}
 }
 ```
@@ -49,7 +49,7 @@ sightglass(obj, keypath, callback, {
   adapters: {':': {
     observe: function(obj, key, callback) {},
     unobserve: function(obj, key, callback) {},
-    get: function(obj, key) {}
+    get: function(obj, key) {},
     set: function(obj, key, value) {}
   }}
 })

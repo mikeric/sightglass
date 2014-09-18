@@ -106,11 +106,11 @@
   // Updates the keypath. This is called when any intermediary key is changed.
   Observer.prototype.update = function() {
     if((next = this.realize()) !== this.target) {
-      if(typeof this.target !== 'undefined') {
+      if(typeof this.target !== 'undefined' && this.target !== null) {
         this.set(false, this.key, this.target, this.callback)
       }
 
-      if(typeof next !== 'undefined') {
+      if(typeof next !== 'undefined' && next !== null) {
         this.set(true, this.key, next, this.callback)
       }
 
@@ -124,7 +124,7 @@
   // Reads the current end value of the observed keypath. Returns undefined if
   // the full keypath is unreachable.
   Observer.prototype.value = function() {
-    if(typeof this.target !== 'undefined') {
+    if(typeof this.target !== 'undefined' && this.target !== null) {
       return this.get(this.key, this.target)
     }
   }
@@ -132,7 +132,7 @@
   // Sets the current end value of the observed keypath. Calling setValue when
   // the full keypath is unreachable is a no-op.
   Observer.prototype.setValue = function(value) {
-    if(typeof this.target !== 'undefined') {
+    if(typeof this.target !== 'undefined' && this.target !== null) {
       this.adapter(this.key).set(this.target, this.key.path, value)
     }
   }
@@ -175,7 +175,7 @@
       }
     }, this)
 
-    if(typeof this.target !== 'undefined') {
+    if(typeof this.target !== 'undefined' && this.target !== null) {
       this.set(false, this.key, this.target, this.callback)
     }
   }

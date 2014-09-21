@@ -26,16 +26,16 @@
   // observer to work with.
   Observer.tokenize = function(keypath, interfaces, root) {
     tokens = []
-    current = {interface: root, path: ''}
+    current = {interf: root, path: ''}
 
     for (index = 0; index < keypath.length; index++) {
-      char = keypath.charAt(index)
+      chr = keypath.charAt(index)
 
-      if(!!~interfaces.indexOf(char)) {
+      if(!!~interfaces.indexOf(chr)) {
         tokens.push(current)
-        current = {interface: char, path: ''}
+        current = {interf: chr, path: ''}
       } else {
-        current.path += char
+        current.path += chr
       }
     }
 
@@ -85,7 +85,7 @@
           this.set(true, token, current, this.update.bind(this))
           this.objectPath[index] = current
         }
-        
+
         current = this.get(token, current)
       } else {
         if(unreached === false) unreached = index
@@ -152,9 +152,9 @@
   Observer.prototype.interfaces = function() {
     interfaces = Object.keys(this.options.adapters)
 
-    Object.keys(sightglass.adapters).forEach(function(interface) {
-      if(!~interfaces.indexOf(interface)) {
-        interfaces.push(interface)
+    Object.keys(sightglass.adapters).forEach(function(interf) {
+      if(!~interfaces.indexOf(interf)) {
+        interfaces.push(interf)
       }
     })
 
@@ -163,8 +163,8 @@
 
   // Convenience function to grab the adapter for a specific key.
   Observer.prototype.adapter = function(key) {
-    return this.options.adapters[key.interface] ||
-      sightglass.adapters[key.interface]
+    return this.options.adapters[key.interf] ||
+      sightglass.adapters[key.interf]
   }
 
   // Unobserves the entire keypath.

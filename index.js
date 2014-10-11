@@ -17,7 +17,7 @@
     this.objectPath = []
     this.parse()
 
-    if(typeof (this.target = this.realize()) !== 'undefined') {
+    if(isObject(this.target = this.realize())) {
       this.set(true, this.key, this.target, this.callback)
     }
   }
@@ -74,7 +74,7 @@
     unreached = false
 
     this.tokens.forEach(function(token, index) {
-      if(typeof current !== 'undefined') {
+      if(isObject(current)) {
         if(typeof this.objectPath[index] !== 'undefined') {
           if(current !== (prev = this.objectPath[index])) {
             this.set(false, token, prev, this.update.bind(this))

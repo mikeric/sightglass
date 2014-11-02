@@ -1,7 +1,7 @@
 {
   "name": "sightglass",
   "description": "Observable keypath engine.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Michael Richards",
   "url": "http://github.com/mikeric/sightglass",
   "main": "index.js",

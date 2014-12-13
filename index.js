@@ -200,4 +200,4 @@
   } else {
     this.sightglass = sightglass
   }
-}).call(this)
+}).call(this);

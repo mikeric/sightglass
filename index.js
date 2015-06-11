@@ -17,6 +17,8 @@
     this.objectPath = []
     this.parse()
 
+    this.updateCallback = this.update.bind(this)
+
     if (isObject(this.target = this.realize())) {
       this.set(true, this.key, this.target, this.callback)
     }
@@ -80,12 +82,12 @@
       if (isObject(current)) {
         if (typeof this.objectPath[index] !== 'undefined') {
           if (current !== (prev = this.objectPath[index])) {
-            this.set(false, token, prev, this.update.bind(this))
-            this.set(true, token, current, this.update.bind(this))
+            this.set(false, token, prev, this.updateCallback)
+            this.set(true, token, current, this.updateCallback)
             this.objectPath[index] = current
           }
         } else {
-          this.set(true, token, current, this.update.bind(this))
+          this.set(true, token, current, this.updateCallback)
           this.objectPath[index] = current
         }
 
@@ -96,7 +98,7 @@
         }
 
         if (prev = this.objectPath[index]) {
-          this.set(false, token, prev, this.update.bind(this))
+          this.set(false, token, prev, this.updateCallback)
         }
       }
     }, this)
@@ -180,7 +182,7 @@
 
     this.tokens.forEach(function(token, index) {
       if (obj = this.objectPath[index]) {
-        this.set(false, token, obj, this.update.bind(this))
+        this.set(false, token, obj, this.updateCallback)
       }
     }, this)
 

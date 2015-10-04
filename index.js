@@ -16,7 +16,6 @@
     this.callback = callback
     this.objectPath = []
     this.parse()
-    var self = this
 
     if (isObject(this.target = this.realize())) {
       this.set(true, this.key, this.target, this.callback)
@@ -81,12 +80,12 @@
       if (isObject(current)) {
         if (typeof this.objectPath[index] !== 'undefined') {
           if (current !== (prev = this.objectPath[index])) {
-            this.set(false, token, prev, this.update)
-            this.set(true, token, current, this.update)
+            this.set(false, token, prev, this.update.bind(this))
+            this.set(true, token, current, this.update.bind(this))
             this.objectPath[index] = current
           }
         } else {
-          this.set(true, token, current, this.update)
+          this.set(true, token, current, this.update.bind(this))
           this.objectPath[index] = current
         }
 
@@ -97,7 +96,7 @@
         }
 
         if (prev = this.objectPath[index]) {
-          this.set(false, token, prev, this.update)
+          this.set(false, token, prev, this.update.bind(this))
         }
       }
     }, this)
@@ -113,19 +112,19 @@
   Observer.prototype.update = function() {
     var next, oldValue
 
-    if ((next = self.realize()) !== self.target) {
-      if (isObject(self.target)) {
-        self.set(false, self.key, self.target, self.callback)
+    if ((next = this.realize()) !== this.target) {
+      if (isObject(this.target)) {
+        this.set(false, this.key, this.target, this.callback)
       }
 
       if (isObject(next)) {
-        self.set(true, self.key, next, self.callback)
+        this.set(true, this.key, next, this.callback)
       }
 
-      oldValue = self.value()
-      self.target = next
+      oldValue = this.value()
+      this.target = next
 
-      if (self.value() !== oldValue) self.callback()
+      if (this.value() !== oldValue) this.callback()
     }
   }
 
@@ -181,7 +180,7 @@
 
     this.tokens.forEach(function(token, index) {
       if (obj = this.objectPath[index]) {
-        this.set(false, token, obj, this.update)
+        this.set(false, token, obj, this.update.bind(this))
       }
     }, this)
 

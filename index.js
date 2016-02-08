@@ -126,6 +126,8 @@
       this.target = next
 
       if (this.value() !== oldValue) this.callback()
+    } else if (next instanceof Array) {
+      this.callback()
     }
   }
 

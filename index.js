@@ -15,6 +15,7 @@
     this.keypath = keypath
     this.callback = callback
     this.objectPath = []
+    this.update = this.update.bind(this)
     this.parse()
 
     if (isObject(this.target = this.realize())) {
@@ -80,12 +81,12 @@
       if (isObject(current)) {
         if (typeof this.objectPath[index] !== 'undefined') {
           if (current !== (prev = this.objectPath[index])) {
-            this.set(false, token, prev, this.update.bind(this))
-            this.set(true, token, current, this.update.bind(this))
+            this.set(false, token, prev, this.update)
+            this.set(true, token, current, this.update)
             this.objectPath[index] = current
           }
         } else {
-          this.set(true, token, current, this.update.bind(this))
+          this.set(true, token, current, this.update)
           this.objectPath[index] = current
         }
 
@@ -96,7 +97,7 @@
         }
 
         if (prev = this.objectPath[index]) {
-          this.set(false, token, prev, this.update.bind(this))
+          this.set(false, token, prev, this.update)
         }
       }
     }, this)
@@ -180,7 +181,7 @@
 
     this.tokens.forEach(function(token, index) {
       if (obj = this.objectPath[index]) {
-        this.set(false, token, obj, this.update.bind(this))
+        this.set(false, token, obj, this.update)
       }
     }, this)
 

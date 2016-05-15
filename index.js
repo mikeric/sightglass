@@ -125,7 +125,8 @@
       oldValue = this.value()
       this.target = next
 
-      if (this.value() !== oldValue) this.callback()
+      // Always call callback if value is a function. If not a function, call callback only if value changed
+      if (this.value() instanceof Function || this.value() !== oldValue) this.callback()
     }
   }
 
